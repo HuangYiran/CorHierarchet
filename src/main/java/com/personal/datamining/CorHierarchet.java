@@ -43,8 +43,10 @@ import java.lang.Math;
  * data1 and data2 should have same size
  *
  *problem:
- * should extrat the changeBest method from the getBestCW method in order to make the
+ * 1.should extrat the changeBest method from the getBestCW method in order to make the
  *    make the change of the changeBest mothed easier. Same reason for the test of the parameter
+ * 2.getLongest method avoid the appear of the new candidat. only wenn the new candidat's size
+ *    large as the old one, will es chosen.
  */
 class CorHierarchet{
     public CorHierarchet(double[] data1, double[] data2){
@@ -237,13 +239,18 @@ class CorHierarchet{
 	int counter = 0; // count the 'best' item
         while(isChanged){
 	    isChanged = false;
-	    int goDownTo = 4;
+	    int goDownTo = NUMBEROFCANDIDATETOOBSERVE;
 	    for(int i = 1; i <= goDownTo; i++){
 		//the value of i deside the number of item that will be compared with the 'best'
 		if(counter + i >= candidaten.size()){
+		    //out of range
 		    break;
 		}
 		compareItem = candidaten.get(counter + i);
+		if(best.get(0) - compareItem.get(0)> LARGESTCOEFFICIENTDISTANCE){
+		   //the change of the correlation coeficient is zu large
+		    break;
+		}
 	    	if(obNeedChange(best, compareItem)){
 	            best = compareItem;
 		    isChanged = true;
@@ -277,7 +284,9 @@ class CorHierarchet{
     private final static int SIZEOFTHEWINDOW = 2;
     private final static double MAXTHRESHOLD = 0.99;
     private final static double MINTHRESHOLD = 0.75;
-    private final static double STUFECHANGE = 0.04;
+    private final static double STUFECHANGE = 0.01;
+    private final static int NUMBEROFCANDIDATETOOBSERVE = 3;
+    private final static double LARGESTCOEFFICIENTDISTANCE = 0.6;
 
     private int sizeOfData = 200;
     private double[] data1;
