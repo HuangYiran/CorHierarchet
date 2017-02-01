@@ -59,6 +59,7 @@ class CorHierarchet{
     public CorHierarchet(){
     
     }
+	
     public void calStufeOne(int sizeOfWindow){
 	/**
 	  *calculate the correlation coeffizient in stufe one
@@ -84,8 +85,8 @@ class CorHierarchet{
 		    stufe1.add(tmpL);
 	    }
 	}
-
     }
+	
     public List<ArrayList<Double>> calStufeNext(List<ArrayList<Double>> old, double threshold){
 	List<ArrayList<Double>> stufeOld = new ArrayList<ArrayList<Double>>(old);
 	List<ArrayList<Double>> stufeNew = new ArrayList<ArrayList<Double>>();
@@ -114,6 +115,7 @@ class CorHierarchet{
 	}
 	return stufeNew;
     }
+	
     private boolean combine(List<ArrayList<Double>> stufeNew, double threshold){
         /**
 	 *get the last two items from the list and calculate the cor
@@ -139,9 +141,11 @@ class CorHierarchet{
 	}
 	return false;
     }
+	
     public List<ArrayList<Double>> getStufeOne(){
         return stufe1;
     }
+	
     public void showStufeOne(){
         for(List<Double> item: stufe1){
 	    System.out.println("=============");
@@ -150,6 +154,7 @@ class CorHierarchet{
 	    System.out.println("bis: "+item.get(2).toString());
 	}
     }
+	
     public void showStufe(List<ArrayList<Double>> stufe){
         for(List<Double> item: stufe){
 	    System.out.println("=============");
@@ -158,6 +163,7 @@ class CorHierarchet{
 	    System.out.println("bis: " + item.get(2).toString());
 	}
     }
+	
     public void readData(String name1, String name2){
         /**
 	 *the form of the name is xxx.data
@@ -190,6 +196,7 @@ class CorHierarchet{
 	    
 	}
     }
+	
     public ArrayList<Double> getLongestWindowInStufe(List<ArrayList<Double>> stufe){
         ArrayList<Double> longestW = new ArrayList<Double>();
 	longestW = stufe.get(0);
@@ -200,14 +207,17 @@ class CorHierarchet{
 	}
 	return longestW;
     }
+	
     public void showItem(ArrayList<Double> item){
         System.out.println("cor: " + item.get(0).toString());
 	System.out.println("ab: " + item.get(1).toString());
 	System.out.println("bis: " + item.get(2).toString());
     }
+	
     public int getSizeOfData(){
         return sizeOfData;
     }
+	
     public ArrayList<Double> getBestCW(){
         //get StufeOne
 	clearStufeOne();
@@ -226,8 +236,6 @@ class CorHierarchet{
 		}
 	    }
 	}
-
-
 	//scale the cor value from [MINTHRESHOLD, 1] to [-2,2]
 	for(ArrayList<Double> item: candidaten){
 	    item.set(0, 4*(item.get(0)-MINTHRESHOLD)/0.25-2);
@@ -262,6 +270,7 @@ class CorHierarchet{
 	best.set(0,(best.get(0)+2)*0.25/4 + MINTHRESHOLD);
 	return best;
     }
+	
     private boolean obNeedChange(ArrayList<Double> item1, ArrayList<Double> item2){
         //item1 is the candidat and item2 is the compare item
 	//calculate the f(x)
@@ -277,6 +286,7 @@ class CorHierarchet{
 	    return false;
 	}
     }
+	
     private void clearStufeOne(){
         stufe1.clear();
     }
