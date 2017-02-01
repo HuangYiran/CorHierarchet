@@ -41,6 +41,10 @@ import java.lang.Math;
  *attention:
  * data.length % sizeOfWindow == 0 otherwise may throws out of range exception 
  * data1 and data2 should have same size
+ *
+ *problem:
+ * should extrat the changeBest method from the getBestCW method in order to make the
+ *    make the change of the changeBest mothed easier. Same reason for the test of the parameter
  */
 class CorHierarchet{
     public CorHierarchet(double[] data1, double[] data2){
@@ -203,17 +207,18 @@ class CorHierarchet{
         return sizeOfData;
     }
     public ArrayList<Double> getBestCW(){
-        //get the list of the candidaten
+        //get StufeOne
 	clearStufeOne();
-	calStufeOne(3);
+	calStufeOne(SIZEOFTHEWINDOW);
+	//get the list of the candidaten
 	List<ArrayList<Double>> candidaten = new ArrayList<ArrayList<Double>>();//candidaten for chosing the best
 	List<ArrayList<Double>> st = getStufeOne();//data in each etage
 	ArrayList<Double> lw = new ArrayList<Double>();//longest item in the same stufe
-	for(double i=0.99; i > 0.75; i-=0.05){
+	for(double i=MAXTHRESHOLD; i > MINTHRESHOLD; i-=STUFECHANGE){
 	    st = calStufeNext(st, i);
             lw = getLongestWindowInStufe(st);
-	    if(lw.get(0) > 0.75){
-		//only the item, which cor larger as 0.75, will be accepted.
+	    if(lw.get(0) > MINTHRESHOLD){
+		//only the item, which cor larger as MINTHRESHOLD, will be accepted.
 		if(!candidaten.contains(lw)){
 		    candidaten.add(lw);
 		}
@@ -221,12 +226,12 @@ class CorHierarchet{
 	}
 
 
-	//scale the cor value from [0.75, 1] to [-2,2]
+	//scale the cor value from [MINTHRESHOLD, 1] to [-2,2]
 	for(ArrayList<Double> item: candidaten){
-	    item.set(0, 4*(item.get(0)-0.75)/0.25-2);
+	    item.set(0, 4*(item.get(0)-MINTHRESHOLD)/0.25-2);
 	}
 	//compare: when w2 > 2w1-w1*f(x) change the best candidat
-	ArrayList<Double> best = candidaten.get(0); //take the item, which largest cor hat, as best
+	ArrayList<Double> best = candidaten.get(0); //take the item, which largest cor hat, as first best
 	ArrayList<Double> compareItem = new ArrayList<Double>(); 
 	boolean isChanged = true; //when no more change be made to 'best', finish the chosen stage
 	int counter = 0; // count the 'best' item
@@ -247,7 +252,7 @@ class CorHierarchet{
 	    	}
 	    }
 	}
-	best.set(0,(best.get(0)+2)*0.25/4 + 0.75);
+	best.set(0,(best.get(0)+2)*0.25/4 + MINTHRESHOLD);
 	return best;
     }
     private boolean obNeedChange(ArrayList<Double> item1, ArrayList<Double> item2){
@@ -269,6 +274,10 @@ class CorHierarchet{
         stufe1.clear();
     }
     
+    private final static int SIZEOFTHEWINDOW = 2;
+    private final static double MAXTHRESHOLD = 0.99;
+    private final static double MINTHRESHOLD = 0.75;
+    private final static double STUFECHANGE = 0.04;
 
     private int sizeOfData = 200;
     private double[] data1;
