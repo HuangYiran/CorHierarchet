@@ -29,6 +29,7 @@ import java.lang.Math;
  *  showStufeOne()
  *  showItem(ArrayList<Double>): display the given item in the screen
  *  readData(String name1, String name2): read data from the given file name. bedingthaft!!!
+ *  getBestCW():
  *
  *private attrbute:
  *  int sizeOfData = 200;
@@ -39,6 +40,7 @@ import java.lang.Math;
  *
  *attention:
  * data.length % sizeOfWindow == 0 otherwise may throws out of range exception 
+ * data1 and data2 should have same size
  */
 class CorHierarchet{
     public CorHierarchet(double[] data1, double[] data2){
@@ -202,6 +204,8 @@ class CorHierarchet{
     }
     public ArrayList<Double> getBestCW(){
         //get the list of the candidaten
+	clearStufeOne();
+	calStufeOne(3);
 	List<ArrayList<Double>> candidaten = new ArrayList<ArrayList<Double>>();//candidaten for chosing the best
 	List<ArrayList<Double>> st = getStufeOne();//data in each etage
 	ArrayList<Double> lw = new ArrayList<Double>();//longest item in the same stufe
@@ -260,6 +264,9 @@ class CorHierarchet{
 	}else{
 	    return false;
 	}
+    }
+    private void clearStufeOne(){
+        stufe1.clear();
     }
     
 
